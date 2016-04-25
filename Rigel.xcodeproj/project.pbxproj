@@ -13,6 +13,8 @@
 		DB6ADC261CCDBE8200C8A5CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */; };
 		DB6ADC281CCDBE8200C8A5CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */; };
 		DB6ADC2B1CCDBE8200C8A5CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */; };
+		DB8E9B061CCDC64100187252 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */; };
+		DB8E9B091CCDC68100187252 /* MultipeerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8E9B081CCDC68100187252 /* MultipeerController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,9 @@
 		DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB6ADC2A1CCDBE8200C8A5CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6ADC2C1CCDBE8200C8A5CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
+		DB8E9B071CCDC68100187252 /* MultipeerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerController.h; sourceTree = "<group>"; };
+		DB8E9B081CCDC68100187252 /* MultipeerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB8E9B061CCDC64100187252 /* MultipeerConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +48,7 @@
 		DB6ADC0F1CCDBE8200C8A5CB = {
 			isa = PBXGroup;
 			children = (
+				DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */,
 				DB6ADC1A1CCDBE8200C8A5CB /* Rigel */,
 				DB6ADC191CCDBE8200C8A5CB /* Products */,
 			);
@@ -60,6 +67,8 @@
 			children = (
 				DB6ADC1E1CCDBE8200C8A5CB /* AppDelegate.h */,
 				DB6ADC1F1CCDBE8200C8A5CB /* AppDelegate.m */,
+				DB8E9B071CCDC68100187252 /* MultipeerController.h */,
+				DB8E9B081CCDC68100187252 /* MultipeerController.m */,
 				DB6ADC211CCDBE8200C8A5CB /* ViewController.h */,
 				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
 				DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */,
@@ -152,6 +161,7 @@
 				DB6ADC231CCDBE8200C8A5CB /* ViewController.m in Sources */,
 				DB6ADC201CCDBE8200C8A5CB /* AppDelegate.m in Sources */,
 				DB6ADC1D1CCDBE8200C8A5CB /* main.m in Sources */,
+				DB8E9B091CCDC68100187252 /* MultipeerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +310,7 @@
 				DB6ADC311CCDBE8200C8A5CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

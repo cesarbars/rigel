@@ -8,7 +8,11 @@
 
 #import "ViewController.h"
 
+#import "MultipeerController.h"
+
 @interface ViewController ()
+
+@property (nonatomic, strong) MultipeerController *multipeerController;
 
 @end
 
@@ -16,7 +20,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+
+    _multipeerController = [[MultipeerController alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
