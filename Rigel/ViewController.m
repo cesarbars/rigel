@@ -55,12 +55,7 @@
     self.multipeerController.sessionManager.delegate = self;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)sendFile {
+- (void)sendResourcesFile {
     NSURL *resourceURL = [[NSBundle mainBundle] URLForResource:@"daddy" withExtension:@"mp3"];
 
     [self.multipeerController.sessionManager sendResourceAtURL:resourceURL progress:^(NSProgress *progress) {
@@ -115,7 +110,7 @@
 
 
     if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
-        [self sendFile];
+        [self sendResourcesFile];
     }
 }
 
