@@ -20,6 +20,7 @@
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 
 @property (nonatomic, weak) IBOutlet UILabel *statusLabel;
+@property (nonatomic, weak) IBOutlet UIView *statusColoredBar;
 
 @end
 
@@ -63,7 +64,7 @@
     NSURL *resourceURL = [[NSBundle mainBundle] URLForResource:@"daddy" withExtension:@"mp3"];
 
     [self.multipeerController.sessionManager sendResourceAtURL:resourceURL progress:^(NSProgress *progress) {
-        NSLog(@"Current progress: %lld", progress.totalUnitCount);
+        NSLog(@"Current progress: %f", progress.fractionCompleted);
     } withCompletion:^(NSError *error) {
         NSLog(@"Finished with error %@", error);
     }];
@@ -85,11 +86,31 @@
 
 #pragma mark MultipeerSessionManagerDelegate
 
-- (void)didChangeState:(MCSessionState)state {
-//    NSLog(@"%@ did change to state: %ld", [self.multipeerController localPeerID], (long)state);
-//    if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
-//        [self sendFile];
-//    }
+- (void)peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
+    UIColor *color;
+
+    switch (state) {
+        case MCSessionStateNotConnected:
+            color = [UIColor redColor];
+            break;
+        case MCSessionStateConnected:
+            color = [UIColor greenColor];
+            break;
+        case MCSessionStateConnecting:
+            color = [UIColor orangeColor];
+            break;
+
+        default:
+            self.statusColoredBar.backgroundColor = [UIColor redColor];
+            break;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.statusColoredBar.backgroundColor = [UIColor redColor];
+    });
+    if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
+        [self sendFile];
+    }
 }
 
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {

@@ -62,9 +62,9 @@
 // Remote peer changed state.
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
     NSLog(@"Peer : %@ did change to :%ld", peerID, state);
-    if ([self.delegate respondsToSelector:@selector(didChangeState:)]) {
+    if ([self.delegate respondsToSelector:@selector(peer:didChangeState:)]) {
         self.state = state;
-        [self.delegate didChangeState:state];
+        [self.delegate peer:peerID didChangeState:state];
     }
 }
 
@@ -88,6 +88,9 @@
 // to a permanent location within its sandbox.
 - (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(nullable NSError *)error {
     NSLog(@"Did finish receiving %@", resourceName);
+    if ([self.delegate respondsToSelector:@selector(didReceiveResource:atURL:)]) {
+        [self.delegate didReceiveResource:resourceName atURL:localURL];
+    }
 }
 
 // Made first contact with peer and have identity information about the

@@ -17,6 +17,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F2k-Tg-R7N">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Browser" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYh-BI-yxJ">
+                                        <rect key="frame" x="0.0" y="20" width="600" height="20"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.31372549020000001" blue="0.1529411765" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="6WX-z0-fEi"/>
+                                    <constraint firstAttribute="trailing" secondItem="TYh-BI-yxJ" secondAttribute="trailing" id="O7H-WU-RUa"/>
+                                    <constraint firstItem="TYh-BI-yxJ" firstAttribute="top" secondItem="F2k-Tg-R7N" secondAttribute="top" constant="20" id="S6K-vg-R2J"/>
+                                    <constraint firstAttribute="bottom" secondItem="TYh-BI-yxJ" secondAttribute="bottom" constant="4" id="eYX-Qz-fVp"/>
+                                    <constraint firstItem="TYh-BI-yxJ" firstAttribute="leading" secondItem="F2k-Tg-R7N" secondAttribute="leading" id="wmg-3y-8EF"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QGW-AG-MgE">
                                 <rect key="frame" x="277" y="285" width="47" height="30"/>
                                 <state key="normal" title="Reload"/>
@@ -24,26 +43,24 @@
                                     <action selector="reload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vMO-1R-545"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Browser" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYh-BI-yxJ">
-                                <rect key="frame" x="0.0" y="20" width="600" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="hfE-Qe-13Y"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="TYh-BI-yxJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9Mz-A2-huR"/>
+                            <constraint firstItem="F2k-Tg-R7N" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="572-tp-C4m"/>
                             <constraint firstItem="QGW-AG-MgE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CQN-YP-SMJ"/>
+                            <constraint firstItem="F2k-Tg-R7N" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Nop-P1-Pge"/>
+                            <constraint firstItem="F2k-Tg-R7N" firstAttribute="centerX" secondItem="QGW-AG-MgE" secondAttribute="centerX" id="PVf-Qe-wk5"/>
                             <constraint firstItem="QGW-AG-MgE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="fWR-0K-S50"/>
-                            <constraint firstItem="TYh-BI-yxJ" firstAttribute="centerX" secondItem="QGW-AG-MgE" secondAttribute="centerX" id="iyw-pJ-NbO"/>
-                            <constraint firstItem="TYh-BI-yxJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="qpA-YQ-qZL"/>
+                            <constraint firstAttribute="bottom" secondItem="F2k-Tg-R7N" secondAttribute="bottom" constant="556" id="wQM-JT-LoA"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="wQM-JT-LoA"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
+                        <outlet property="statusColoredBar" destination="F2k-Tg-R7N" id="k9X-05-kve"/>
                         <outlet property="statusLabel" destination="TYh-BI-yxJ" id="dOd-yr-ANO"/>
                     </connections>
                 </viewController>

@@ -13,7 +13,7 @@
 @protocol MultipeerSessionManagerDelegate <NSObject>
 
 @optional
-- (void)didChangeState:(MCSessionState)state;
+- (void)peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state;
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL;
 
 @end
