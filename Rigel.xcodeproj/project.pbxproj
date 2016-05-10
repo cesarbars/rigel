@@ -33,6 +33,7 @@
 		DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */; };
 		DBDBF8231CDB8C7C006BE736 /* MultipeerAdvertiserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */; };
 		DBDBF8261CDBFAFC006BE736 /* RigelAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */; };
+		DBE559BC1CE24B74000E6E50 /* browser.plist in Resources */ = {isa = PBXBuildFile; fileRef = DBE559BB1CE24B74000E6E50 /* browser.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerAdvertiserController.m; sourceTree = "<group>"; };
 		DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RigelAppContext.h; sourceTree = "<group>"; };
 		DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RigelAppContext.m; sourceTree = "<group>"; };
+		DBE559BB1CE24B74000E6E50 /* browser.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = browser.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 		DB6ADC1B1CCDBE8200C8A5CB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBE559BB1CE24B74000E6E50 /* browser.plist */,
 				DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */,
 				DB6ADC1C1CCDBE8200C8A5CB /* main.m */,
 			);
@@ -197,6 +200,7 @@
 				DBA80F7E1CD7F96300CF7EEF /* daddy.mp3 in Resources */,
 				DB6ADC281CCDBE8200C8A5CB /* Assets.xcassets in Resources */,
 				DB6ADC261CCDBE8200C8A5CB /* Main.storyboard in Resources */,
+				DBE559BC1CE24B74000E6E50 /* browser.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +390,7 @@
 				DBDBF82A1CDD113F006BE736 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
