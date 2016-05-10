@@ -90,24 +90,30 @@
     UIColor *color;
 
     switch (state) {
-        case MCSessionStateNotConnected:
+        case MCSessionStateNotConnected: {
             color = [UIColor redColor];
+        }
             break;
-        case MCSessionStateConnected:
+        case MCSessionStateConnected: {
             color = [UIColor greenColor];
-            break;
-        case MCSessionStateConnecting:
+        }
+        break;
+        case MCSessionStateConnecting: {
             color = [UIColor orangeColor];
+        }
             break;
 
-        default:
-            self.statusColoredBar.backgroundColor = [UIColor redColor];
+        default: {
+            color = [UIColor redColor];
+        }
             break;
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusColoredBar.backgroundColor = [UIColor redColor];
+        self.statusColoredBar.backgroundColor = color;
     });
+
+
     if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
         [self sendFile];
     }

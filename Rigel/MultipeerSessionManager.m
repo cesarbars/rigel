@@ -12,6 +12,8 @@
 
 @interface MultipeerSessionManager () <MCSessionDelegate>
 
+@property (nonatomic, strong) MCPeerID *connectedPeerID;
+
 @property (nonatomic, readwrite) MCSessionState state;
 @property (nonatomic, strong) void (^progressBlock)(NSProgress *progress);
 
@@ -62,9 +64,27 @@
 // Remote peer changed state.
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
     NSLog(@"Peer : %@ did change to :%ld", peerID, state);
-    if ([self.delegate respondsToSelector:@selector(peer:didChangeState:)]) {
-        self.state = state;
-        [self.delegate peer:peerID didChangeState:state];
+
+    if (session == self.session) {
+        if (!self.connectedPeerID) {
+            self.connectedPeerID = peerID;
+        }
+
+        // This delegate call might report changes in state from peers connected in the past that aready disconnected
+        if (peerID == self.connectedPeerID) {
+            // In case we lost connection, invalidate the current conneted peer ID
+            if (state == MCSessionStateNotConnected) {
+                self.connectedPeerID = nil;
+            }
+
+            // This is the peer we're connected to, let the delegate know of the change
+            if ([self.delegate respondsToSelector:@selector(peer:didChangeState:)]) {
+                self.state = state;
+                [self.delegate peer:peerID didChangeState:state];
+            }
+        } else {
+            NSLog(@"Supressing peer : %@ state change to :%ld", peerID, state);
+        }
     }
 }
 
@@ -92,6 +112,9 @@
         [self.delegate didReceiveResource:resourceName atURL:localURL];
     }
 }
+
+
+// Necessary due to bug on MCFramework
 
 // Made first contact with peer and have identity information about the
 // remote peer (certificate may be nil).
