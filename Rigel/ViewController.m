@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 
+@property (nonatomic, weak) IBOutlet UILabel *statusLabel;
+
 @end
 
 @implementation ViewController
@@ -26,6 +28,16 @@
 - (AbstractMultipeerController *)multipeerController {
     if (_multipeerController == nil) {
         _multipeerController = [RigelAppContext currentMultipeerController];
+        NSString *description;
+        if ([_multipeerController isKindOfClass:[MultipeerBrowserController class]]) {
+            description = [NSString stringWithFormat:@"%@ is Browsing", [UIDevice currentDevice].name];
+        } else {
+            description = [NSString stringWithFormat:@"%@ is Advertising", [UIDevice currentDevice].name];
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.statusLabel.text = description;
+        });
     }
     return _multipeerController;
 }

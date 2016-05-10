@@ -16,12 +16,11 @@
 
 + (RigelAppState)currentState {
     RigelAppState state;
-#if (TARGET_OS_SIMULATOR)
-    state = RigelAppStateAdvertiser;
-#else
-    state = RigelAppStateBrowser;
-#endif
-
+    if ([[[UIDevice currentDevice] name] containsString:@"michelle"]) {
+        state = RigelAppStateBrowser;
+    } else {
+        state = RigelAppStateAdvertiser;
+    }
     return state;
 }
 
