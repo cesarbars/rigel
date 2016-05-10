@@ -6,6 +6,19 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		DBDBF8271CDD113F006BE736 /* Rigel multi-device */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DBDBF8281CDD113F006BE736 /* Build configuration list for PBXAggregateTarget "Rigel multi-device" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = "Rigel multi-device";
+			productName = "Rigel multi-device";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		DB6ADC1D1CCDBE8200C8A5CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6ADC1C1CCDBE8200C8A5CB /* main.m */; };
 		DB6ADC201CCDBE8200C8A5CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6ADC1F1CCDBE8200C8A5CB /* AppDelegate.m */; };
@@ -14,7 +27,12 @@
 		DB6ADC281CCDBE8200C8A5CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */; };
 		DB6ADC2B1CCDBE8200C8A5CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */; };
 		DB8E9B061CCDC64100187252 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */; };
-		DB8E9B091CCDC68100187252 /* MultipeerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8E9B081CCDC68100187252 /* MultipeerController.m */; };
+		DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */; };
+		DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */; };
+		DBA80F7E1CD7F96300CF7EEF /* daddy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */; };
+		DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */; };
+		DBDBF8231CDB8C7C006BE736 /* MultipeerAdvertiserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */; };
+		DBDBF8261CDBFAFC006BE736 /* RigelAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,8 +47,17 @@
 		DB6ADC2A1CCDBE8200C8A5CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6ADC2C1CCDBE8200C8A5CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
-		DB8E9B071CCDC68100187252 /* MultipeerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerController.h; sourceTree = "<group>"; };
-		DB8E9B081CCDC68100187252 /* MultipeerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerController.m; sourceTree = "<group>"; };
+		DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMultipeerController.h; sourceTree = "<group>"; };
+		DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractMultipeerController.m; sourceTree = "<group>"; };
+		DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerSessionManager.h; sourceTree = "<group>"; };
+		DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerSessionManager.m; sourceTree = "<group>"; };
+		DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = daddy.mp3; sourceTree = "<group>"; };
+		DBDBF81E1CDB7823006BE736 /* MultipeerBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerBrowserController.h; sourceTree = "<group>"; };
+		DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerBrowserController.m; sourceTree = "<group>"; };
+		DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerAdvertiserController.h; sourceTree = "<group>"; };
+		DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerAdvertiserController.m; sourceTree = "<group>"; };
+		DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RigelAppContext.h; sourceTree = "<group>"; };
+		DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RigelAppContext.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +75,7 @@
 		DB6ADC0F1CCDBE8200C8A5CB = {
 			isa = PBXGroup;
 			children = (
-				DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */,
+				DBA80F761CD7EBA900CF7EEF /* Frameworks */,
 				DB6ADC1A1CCDBE8200C8A5CB /* Rigel */,
 				DB6ADC191CCDBE8200C8A5CB /* Products */,
 			);
@@ -67,10 +94,18 @@
 			children = (
 				DB6ADC1E1CCDBE8200C8A5CB /* AppDelegate.h */,
 				DB6ADC1F1CCDBE8200C8A5CB /* AppDelegate.m */,
-				DB8E9B071CCDC68100187252 /* MultipeerController.h */,
-				DB8E9B081CCDC68100187252 /* MultipeerController.m */,
+				DBDBF81E1CDB7823006BE736 /* MultipeerBrowserController.h */,
+				DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */,
+				DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */,
+				DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */,
+				DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */,
+				DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */,
+				DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */,
+				DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */,
 				DB6ADC211CCDBE8200C8A5CB /* ViewController.h */,
 				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
+				DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */,
+				DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */,
 				DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */,
 				DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */,
 				DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */,
@@ -83,9 +118,18 @@
 		DB6ADC1B1CCDBE8200C8A5CB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */,
 				DB6ADC1C1CCDBE8200C8A5CB /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DBA80F761CD7EBA900CF7EEF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +164,9 @@
 					DB6ADC171CCDBE8200C8A5CB = {
 						CreatedOnToolsVersion = 7.3;
 					};
+					DBDBF8271CDD113F006BE736 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 				};
 			};
 			buildConfigurationList = DB6ADC131CCDBE8200C8A5CB /* Build configuration list for PBXProject "Rigel" */;
@@ -136,6 +183,7 @@
 			projectRoot = "";
 			targets = (
 				DB6ADC171CCDBE8200C8A5CB /* Rigel */,
+				DBDBF8271CDD113F006BE736 /* Rigel multi-device */,
 			);
 		};
 /* End PBXProject section */
@@ -146,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB6ADC2B1CCDBE8200C8A5CB /* LaunchScreen.storyboard in Resources */,
+				DBA80F7E1CD7F96300CF7EEF /* daddy.mp3 in Resources */,
 				DB6ADC281CCDBE8200C8A5CB /* Assets.xcassets in Resources */,
 				DB6ADC261CCDBE8200C8A5CB /* Main.storyboard in Resources */,
 			);
@@ -158,10 +207,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */,
 				DB6ADC231CCDBE8200C8A5CB /* ViewController.m in Sources */,
+				DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */,
+				DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */,
 				DB6ADC201CCDBE8200C8A5CB /* AppDelegate.m in Sources */,
+				DBDBF8261CDBFAFC006BE736 /* RigelAppContext.m in Sources */,
 				DB6ADC1D1CCDBE8200C8A5CB /* main.m in Sources */,
-				DB8E9B091CCDC68100187252 /* MultipeerController.m in Sources */,
+				DBDBF8231CDB8C7C006BE736 /* MultipeerAdvertiserController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +344,20 @@
 			};
 			name = Release;
 		};
+		DBDBF8291CDD113F006BE736 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DBDBF82A1CDD113F006BE736 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -311,6 +378,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DBDBF8281CDD113F006BE736 /* Build configuration list for PBXAggregateTarget "Rigel multi-device" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DBDBF8291CDD113F006BE736 /* Debug */,
+				DBDBF82A1CDD113F006BE736 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

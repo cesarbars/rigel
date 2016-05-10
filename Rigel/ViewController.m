@@ -8,25 +8,80 @@
 
 #import "ViewController.h"
 
-#import "MultipeerController.h"
+#import "AbstractMultipeerController.h"
+#import "MultipeerAdvertiserController.h"
+#import "MultipeerBrowserController.h"
+#import "MultipeerSessionManager.h"
+#import "RigelAppContext.h"
+#import "RigelAppContext.h"
 
-@interface ViewController ()
+@interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate>
 
-@property (nonatomic, strong) MultipeerController *multipeerController;
+@property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 
 @end
 
 @implementation ViewController
 
+- (AbstractMultipeerController *)multipeerController {
+    if (_multipeerController == nil) {
+        _multipeerController = [RigelAppContext currentMultipeerController];
+    }
+    return _multipeerController;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _multipeerController = [[MultipeerController alloc] init];
+    [self setup];
+}
+
+- (void)setup {
+    [self.multipeerController setup];
+    self.multipeerController.delegate = self;
+    self.multipeerController.sessionManager.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)sendFile {
+    NSURL *resourceURL = [[NSBundle mainBundle] URLForResource:@"daddy" withExtension:@"mp3"];
+
+    [self.multipeerController.sessionManager sendResourceAtURL:resourceURL progress:^(NSProgress *progress) {
+        NSLog(@"Current progress: %lld", progress.totalUnitCount);
+    } withCompletion:^(NSError *error) {
+        NSLog(@"Finished with error %@", error);
+    }];
+}
+
+#pragma mark Actions
+
+- (IBAction)reload:(id)sender {
+    [self setup];
+}
+
+#pragma mark MultipeerBrowserDelegate
+
+- (void)lostConnectedPeer:(MCPeerID *)peerID {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dispositivo desconectado" message:[NSString stringWithFormat:@"O dispositivo %@ foi desconectado", peerID.displayName] preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleDefault handler:nil]];
+    [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alertController animated:YES completion:nil ];
+}
+
+#pragma mark MultipeerSessionManagerDelegate
+
+- (void)didChangeState:(MCSessionState)state {
+//    NSLog(@"%@ did change to state: %ld", [self.multipeerController localPeerID], (long)state);
+//    if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
+//        [self sendFile];
+//    }
+}
+
+- (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {
+    NSLog(@"Got resources");
 }
 
 @end
