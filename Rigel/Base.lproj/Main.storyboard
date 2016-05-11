@@ -72,6 +72,9 @@
                             <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="DO4-Nf-DGM">
                                 <rect key="frame" x="20" y="454" width="560" height="2"/>
                                 <color key="tintColor" red="0.9137254901960784" green="0.53725490196078429" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="wRM-S2-ZXO"/>
+                                </constraints>
                             </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="local (MANET)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Xn-lO-pHw">
                                 <rect key="frame" x="54" y="416" width="98" height="21"/>
@@ -148,6 +151,9 @@
                             <progressView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.20000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="w1r-nb-ICh">
                                 <rect key="frame" x="20" y="514" width="560" height="2"/>
                                 <color key="tintColor" red="0.13725490196078433" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="phd-uD-pxL"/>
+                                </constraints>
                             </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -198,7 +204,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="device is Advertising" id="5gj-NO-qZ9">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="Y3e-eD-Okz">
+                        <barButtonItem key="rightBarButtonItem" style="done" id="Y3e-eD-Okz">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QGW-AG-MgE">
                                 <rect key="frame" x="533" y="7" width="47" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
