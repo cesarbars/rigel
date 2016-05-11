@@ -50,6 +50,13 @@
     self.session = session;
 }
 
+- (void)dealloc {
+    [_session invalidateAndCancel];
+    _session = nil;
+    _sessionManager = nil;
+    _resourcesURL = nil;
+}
+
 #pragma mark NSURLSessionDataDelegate
 
 -(void)URLSession:(NSURLSession *)session task:(nonnull NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
@@ -63,6 +70,10 @@
 }
 
 -(void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    if (self.isCancelled) {
+        [downloadTask cancel];
+        [RigelErrorHandler handleError:[NSError errorWithDomain:@"com.cesarbars.rigel" code:1001 userInfo:nil] withCustomDescription:@"Index download cancelled: Operation was cancelled"];
+    }
     NSLog(@"Index download progress %f", (double)totalBytesWritten/(double)totalBytesExpectedToWrite);
 }
 
