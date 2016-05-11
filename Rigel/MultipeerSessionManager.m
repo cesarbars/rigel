@@ -63,7 +63,7 @@
 
 // Remote peer changed state.
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state {
-    NSLog(@"Peer : %@ did change to :%ld", peerID, state);
+    NSLog(@"Peer : %@ did change to :%ld", peerID, (long)state);
 
     if (session == self.session) {
         if (!self.connectedPeerID) {
@@ -83,7 +83,7 @@
                 [self.delegate peer:peerID didChangeState:state];
             }
         } else {
-            NSLog(@"Supressing peer : %@ state change to :%ld", peerID, state);
+            NSLog(@"Supressing peer : %@ state change to :%ld", peerID, (long)state);
         }
     }
 }

@@ -19,9 +19,6 @@
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 
-@property (nonatomic, weak) IBOutlet UILabel *statusLabel;
-@property (nonatomic, weak) IBOutlet UIView *statusColoredBar;
-
 @end
 
 @implementation ViewController
@@ -37,7 +34,7 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.statusLabel.text = description;
+            self.navigationItem.title = description;
         });
     }
     return _multipeerController;
@@ -86,26 +83,26 @@
 
     switch (state) {
         case MCSessionStateNotConnected: {
-            color = [UIColor redColor];
+            color = [UIColor colorWithRed:1.0 green:.451 blue:.424 alpha:1.0];
         }
             break;
         case MCSessionStateConnected: {
-            color = [UIColor greenColor];
+            color = [UIColor colorWithRed:.345 green:.816 blue:.404 alpha:1.0];
         }
         break;
         case MCSessionStateConnecting: {
-            color = [UIColor orangeColor];
+            color = [UIColor colorWithRed:1.0 green:.835 blue:.424 alpha:1.0];
         }
             break;
 
         default: {
-            color = [UIColor redColor];
+            color = [UIColor colorWithRed:1.0 green:.451 blue:.424 alpha:1.0];
         }
             break;
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusColoredBar.backgroundColor = color;
+        self.navigationController.navigationBar.barTintColor = color;
     });
 
 
