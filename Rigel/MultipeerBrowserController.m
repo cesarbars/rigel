@@ -36,12 +36,12 @@
 
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary<NSString *,NSString *> *)info {
     // Peer found
-//    if ([[info objectForKey:RigelSharedSecretKey]isEqualToString:RigelSharedSecretValue]) {
-//        NSDictionary *context = @{RigelSharedSecretKey : RigelSharedSecretValue};
-//        NSData *contextData = [NSKeyedArchiver archivedDataWithRootObject:context];
+    if ([[info objectForKey:RigelSharedSecretKey]isEqualToString:RigelSharedSecretValue]) {
+        NSDictionary *context = @{RigelSharedSecretKey : RigelSharedSecretValue};
+        NSData *contextData = [NSKeyedArchiver archivedDataWithRootObject:context];
 
-        [self.browser invitePeer:peerID toSession:self.localSession withContext:nil timeout:30.0];
-//    }
+        [self.browser invitePeer:peerID toSession:self.localSession withContext:contextData timeout:30.0];
+    }
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {

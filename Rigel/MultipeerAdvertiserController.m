@@ -35,11 +35,11 @@
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession * _Nonnull))invitationHandler {
 
-//    NSDictionary *info = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:context];
-//    if ([[info objectForKey:RigelSharedSecretKey]isEqualToString:RigelSharedSecretValue]) {
+    NSDictionary *info = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:context];
+    if ([[info objectForKey:RigelSharedSecretKey]isEqualToString:RigelSharedSecretValue]) {
 
         invitationHandler(YES, self.localSession);
-//    }
+    }
 }
 
 @end
