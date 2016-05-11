@@ -12,6 +12,7 @@
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 #import "MultipeerSessionManager.h"
+#import "PopulateResourcesIndexOperation.h"
 #import "RigelAppContext.h"
 #import "RigelAppContext.h"
 
@@ -52,14 +53,11 @@
     self.multipeerController.sessionManager.delegate = self;
 }
 
-- (void)sendResourcesFile {
-    NSURL *resourceURL = [[NSBundle mainBundle] URLForResource:@"daddy" withExtension:@"mp3"];
+- (void)beginIndexOperation {
+    PopulateResourcesIndexOperation *indexOperation = [[PopulateResourcesIndexOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
+    indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
-    [self.multipeerController.sessionManager sendResourceAtURL:resourceURL progress:^(NSProgress *progress) {
-        NSLog(@"Current progress: %f", progress.fractionCompleted);
-    } withCompletion:^(NSError *error) {
-        NSLog(@"Finished with error %@", error);
-    }];
+    [[NSOperationQueue mainQueue] addOperation:indexOperation];
 }
 
 #pragma mark Actions
@@ -84,10 +82,15 @@
     switch (state) {
         case MCSessionStateNotConnected: {
             color = [UIColor colorWithRed:1.0 green:.451 blue:.424 alpha:1.0];
+            // Tries to reconnect
+            [self setup];
         }
             break;
         case MCSessionStateConnected: {
             color = [UIColor colorWithRed:.345 green:.816 blue:.404 alpha:1.0];
+            // Stops browsing/advertising peers
+            [self.multipeerController disableDiscoverability];
+            [self beginIndexOperation];
         }
         break;
         case MCSessionStateConnecting: {
@@ -104,11 +107,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         self.navigationController.navigationBar.barTintColor = color;
     });
-
-
-    if ((state == MCSessionStateConnected) && ([RigelAppContext currentState] == RigelAppStateBrowser)) {
-        [self sendResourcesFile];
-    }
 }
 
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {
