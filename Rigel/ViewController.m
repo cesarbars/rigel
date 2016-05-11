@@ -12,7 +12,7 @@
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 #import "MultipeerSessionManager.h"
-#import "PopulateResourcesIndexOperation.h"
+#import "ResourcesIndexDownloadOperation.h"
 #import "RigelAppContext.h"
 #import "RigelAppContext.h"
 
@@ -54,7 +54,7 @@
 }
 
 - (void)beginIndexOperation {
-    PopulateResourcesIndexOperation *indexOperation = [[PopulateResourcesIndexOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
+    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
     [[NSOperationQueue mainQueue] addOperation:indexOperation];

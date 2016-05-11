@@ -1,5 +1,5 @@
 //
-//  PopulateResourcesIndexOperation.h
+//  ResourcesIndexDownloadOperation.h
 //  Rigel
 //
 //  Created by Cesar Barscevicius on 5/11/16.
@@ -10,7 +10,7 @@
 
 @class MultipeerSessionManager;
 
-@interface PopulateResourcesIndexOperation : NSOperation
+@interface ResourcesIndexDownloadOperation : NSOperation
 
 - (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager NS_DESIGNATED_INITIALIZER;
 

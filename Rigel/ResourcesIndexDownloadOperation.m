@@ -1,17 +1,17 @@
 //
-//  PopulateResourcesIndexOperation.m
+//  ResourcesIndexDownloadOperation.m
 //  Rigel
 //
 //  Created by Cesar Barscevicius on 5/11/16.
 //  Copyright © 2016 Cesar Barscevicius. All rights reserved.
 //
 
-#import "PopulateResourcesIndexOperation.h"
+#import "ResourcesIndexDownloadOperation.h"
 
 #import "MultipeerSessionManager.h"
 #import "RigelErrorHandler.h"
 
-@interface PopulateResourcesIndexOperation () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
+@interface ResourcesIndexDownloadOperation () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, strong) NSURL *resourcesURL;
 @property (nonatomic, strong) MultipeerSessionManager *sessionManager;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation PopulateResourcesIndexOperation
+@implementation ResourcesIndexDownloadOperation
 
 - (instancetype)init {
     self = [self initWithResourcesIndexURL:nil sessionManager:nil];
