@@ -26,6 +26,10 @@ NSString * const RigelSharedSecretValue = @"1234";
 
 }
 
+- (void)disableDiscoverability {
+
+}
+
 - (MCPeerID *)localPeerID {
     if (_peerID == nil) {
         _peerID = [[MCPeerID alloc] initWithDisplayName:[[UIDevice currentDevice] name]];

@@ -20,6 +20,7 @@ extern NSString * const RigelSharedSecretValue;
 @protocol MultipeerConnectionProtocol <NSObject>
 
 - (void)setup;
+- (void)disableDiscoverability;
 
 @end
 

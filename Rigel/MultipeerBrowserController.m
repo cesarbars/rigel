@@ -31,6 +31,9 @@
     self.sessionManager = [[MultipeerSessionManager alloc] initWithSession:self.localSession];
 }
 
+- (void)disableDiscoverability {
+    [self.browser stopBrowsingForPeers];
+}
 
 #pragma mark - MCNearbyServiceBrowserDelegate
 
@@ -45,7 +48,7 @@
 }
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID {
-    if ([self.delegate respondsToSelector:@selector(lostConnectedPeer:)]) {
+    if ([self.delegate respondsToSelector:@selector(lostConnectedPeer:)] && [self.sessionManager.session.connectedPeers containsObject:peerID]) {
         [self.delegate lostConnectedPeer:peerID];
     }
 }

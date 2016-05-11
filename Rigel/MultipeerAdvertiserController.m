@@ -31,6 +31,10 @@
     self.sessionManager = [[MultipeerSessionManager alloc] initWithSession:self.localSession];
 }
 
+- (void)disableDiscoverability {
+    [self.advertiser stopAdvertisingPeer];
+}
+
 #pragma mark - MCNearbyServiceAdvertiserDelegate
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession * _Nonnull))invitationHandler {
