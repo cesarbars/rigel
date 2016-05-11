@@ -30,6 +30,8 @@
 		DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */; };
 		DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */; };
 		DBA80F7E1CD7F96300CF7EEF /* daddy.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */; };
+		DBB879711CE2E022005EC483 /* PopulateResourcesIndexOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB879701CE2E022005EC483 /* PopulateResourcesIndexOperation.m */; };
+		DBB879771CE2E928005EC483 /* RigelErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB879761CE2E928005EC483 /* RigelErrorHandler.m */; };
 		DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */; };
 		DBDBF8231CDB8C7C006BE736 /* MultipeerAdvertiserController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */; };
 		DBDBF8261CDBFAFC006BE736 /* RigelAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */; };
@@ -52,6 +54,10 @@
 		DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerSessionManager.h; sourceTree = "<group>"; };
 		DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerSessionManager.m; sourceTree = "<group>"; };
 		DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = daddy.mp3; sourceTree = "<group>"; };
+		DBB8796F1CE2E022005EC483 /* PopulateResourcesIndexOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopulateResourcesIndexOperation.h; sourceTree = "<group>"; };
+		DBB879701CE2E022005EC483 /* PopulateResourcesIndexOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopulateResourcesIndexOperation.m; sourceTree = "<group>"; };
+		DBB879751CE2E928005EC483 /* RigelErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RigelErrorHandler.h; sourceTree = "<group>"; };
+		DBB879761CE2E928005EC483 /* RigelErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RigelErrorHandler.m; sourceTree = "<group>"; };
 		DBDBF81E1CDB7823006BE736 /* MultipeerBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerBrowserController.h; sourceTree = "<group>"; };
 		DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultipeerBrowserController.m; sourceTree = "<group>"; };
 		DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultipeerAdvertiserController.h; sourceTree = "<group>"; };
@@ -98,6 +104,8 @@
 				DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */,
 				DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */,
 				DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */,
+				DBB8796F1CE2E022005EC483 /* PopulateResourcesIndexOperation.h */,
+				DBB879701CE2E022005EC483 /* PopulateResourcesIndexOperation.m */,
 				DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */,
 				DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */,
 				DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */,
@@ -106,6 +114,8 @@
 				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
 				DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */,
 				DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */,
+				DBB879751CE2E928005EC483 /* RigelErrorHandler.h */,
+				DBB879761CE2E928005EC483 /* RigelErrorHandler.m */,
 				DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */,
 				DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */,
 				DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */,
@@ -210,11 +220,13 @@
 				DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */,
 				DB6ADC231CCDBE8200C8A5CB /* ViewController.m in Sources */,
 				DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */,
+				DBB879711CE2E022005EC483 /* PopulateResourcesIndexOperation.m in Sources */,
 				DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */,
 				DB6ADC201CCDBE8200C8A5CB /* AppDelegate.m in Sources */,
 				DBDBF8261CDBFAFC006BE736 /* RigelAppContext.m in Sources */,
 				DB6ADC1D1CCDBE8200C8A5CB /* main.m in Sources */,
 				DBDBF8231CDB8C7C006BE736 /* MultipeerAdvertiserController.m in Sources */,
+				DBB879771CE2E928005EC483 /* RigelErrorHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
