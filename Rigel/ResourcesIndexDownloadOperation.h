@@ -12,6 +12,6 @@
 
 @interface ResourcesIndexDownloadOperation : NSOperation
 
-- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager completionHandler:(void (^)(NSDictionary *indexDictionary))completionHandler NS_DESIGNATED_INITIALIZER;
 
 @end

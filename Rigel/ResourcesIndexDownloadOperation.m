@@ -10,26 +10,30 @@
 
 #import "MultipeerSessionManager.h"
 #import "RigelErrorHandler.h"
+#import "DownloadFileManager.h"
 
 @interface ResourcesIndexDownloadOperation () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, strong) NSURL *resourcesURL;
 @property (nonatomic, strong) MultipeerSessionManager *sessionManager;
 @property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, copy) void (^completionHandler)(NSDictionary *indexDictionary);
+
 
 @end
 
 @implementation ResourcesIndexDownloadOperation
 
 - (instancetype)init {
-    self = [self initWithResourcesIndexURL:nil sessionManager:nil];
+    self = [self initWithResourcesIndexURL:nil sessionManager:nil completionHandler:nil];
     return self;
 }
 
-- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager {
+- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager completionHandler:(void (^)(NSDictionary *indexDictionary))completionHandler {
     if (self = [super init]) {
         _resourcesURL = resourcesURL;
         _sessionManager = sessionManager;
+        _completionHandler = completionHandler;
     }
 
     return self;
@@ -66,6 +70,21 @@
 }
 
 -(void)URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(nonnull NSURL *)location {
+    NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *folder = [documentsPath stringByAppendingPathComponent:@"downloads"];
+    NSFileManager *fileManager = [DownloadFileManager sharedInstance].sharedFileManager;
+    NSError *error = nil;
+
+    if (![fileManager fileExistsAtPath:folder]){
+        [fileManager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:&error];
+    }
+
+    if (!error) {
+        [fileManager copyItemAtURL:location toURL:[NSURL URLWithString:folder] error:&error];
+    } else {
+        [self cancel];
+    }
+
     NSLog(@"Index file sucessfully downloaded at location %@", location);
 }
 
