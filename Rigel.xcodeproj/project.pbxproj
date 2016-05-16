@@ -26,6 +26,8 @@
 		DB6ADC261CCDBE8200C8A5CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */; };
 		DB6ADC281CCDBE8200C8A5CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */; };
 		DB6ADC2B1CCDBE8200C8A5CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */; };
+		DB8C15821CEA5AF40057A437 /* Track.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C15811CEA5AF40057A437 /* Track.m */; };
+		DB8C15851CEA5B960057A437 /* DownloadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C15841CEA5B960057A437 /* DownloadFileManager.m */; };
 		DB8E9B061CCDC64100187252 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */; };
 		DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */; };
 		DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */; };
@@ -48,6 +50,10 @@
 		DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB6ADC2A1CCDBE8200C8A5CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB6ADC2C1CCDBE8200C8A5CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB8C15801CEA5AF40057A437 /* Track.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Track.h; sourceTree = "<group>"; };
+		DB8C15811CEA5AF40057A437 /* Track.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Track.m; sourceTree = "<group>"; };
+		DB8C15831CEA5B960057A437 /* DownloadFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadFileManager.h; sourceTree = "<group>"; };
+		DB8C15841CEA5B960057A437 /* DownloadFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadFileManager.m; sourceTree = "<group>"; };
 		DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultipeerConnectivity.framework; path = System/Library/Frameworks/MultipeerConnectivity.framework; sourceTree = SDKROOT; };
 		DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractMultipeerController.h; sourceTree = "<group>"; };
 		DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractMultipeerController.m; sourceTree = "<group>"; };
@@ -112,6 +118,10 @@
 				DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */,
 				DB6ADC211CCDBE8200C8A5CB /* ViewController.h */,
 				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
+				DB8C15801CEA5AF40057A437 /* Track.h */,
+				DB8C15811CEA5AF40057A437 /* Track.m */,
+				DB8C15831CEA5B960057A437 /* DownloadFileManager.h */,
+				DB8C15841CEA5B960057A437 /* DownloadFileManager.m */,
 				DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */,
 				DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */,
 				DBB879751CE2E928005EC483 /* RigelErrorHandler.h */,
@@ -220,6 +230,8 @@
 				DBDBF8201CDB7823006BE736 /* MultipeerBrowserController.m in Sources */,
 				DB6ADC231CCDBE8200C8A5CB /* ViewController.m in Sources */,
 				DBA80F791CD7F12000CF7EEF /* AbstractMultipeerController.m in Sources */,
+				DB8C15851CEA5B960057A437 /* DownloadFileManager.m in Sources */,
+				DB8C15821CEA5AF40057A437 /* Track.m in Sources */,
 				DBB879711CE2E022005EC483 /* ResourcesIndexDownloadOperation.m in Sources */,
 				DBA80F7C1CD7F18E00CF7EEF /* MultipeerSessionManager.m in Sources */,
 				DB6ADC201CCDBE8200C8A5CB /* AppDelegate.m in Sources */,
