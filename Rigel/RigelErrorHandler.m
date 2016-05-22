@@ -17,7 +17,10 @@ NSString * const RigelErrorDomain = @"com.cesarbars.rigel";
 }
 
 + (void)handleError:(NSError *)error withCustomDescription:(NSString *)customDescription {
-    NSLog(@"An error occurred: %@ %@", error.description, customDescription);
+    NSLog(@"An error occurred: %@", error.description);
+    if (customDescription) {
+        NSLog(@"Error Description: %@", customDescription);
+    }
 }
 
 @end
