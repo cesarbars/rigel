@@ -54,10 +54,10 @@
 }
 
 - (void)beginIndexOperation {
-    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager completionHandler:^(NSDictionary *indexDictionary) {
-
-    }];
+    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
+
+    
 
     [[NSOperationQueue mainQueue] addOperation:indexOperation];
 }
