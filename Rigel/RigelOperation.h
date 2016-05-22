@@ -11,5 +11,6 @@
 @interface RigelOperation : NSOperation
 
 @property (nonatomic) BOOL success;
+@property (nonatomic) id data;
 
 @end

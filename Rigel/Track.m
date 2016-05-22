@@ -7,7 +7,6 @@
 //
 
 #import "Track.h"
-#import "DownloadFileManager.h"
 
 @interface Track ()
 
@@ -27,7 +26,7 @@
     if (self = [super init]) {
         _title = title;
         NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-        NSString *path = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp3", _title]];
+        NSString *path = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/downloads/%@.mp3", _title]];
         _filePath = path;
     }
 
@@ -35,7 +34,11 @@
 }
 
 - (BOOL)isLocal {
-    return [[DownloadFileManager sharedInstance] fileExistsAtURL:[NSURL fileURLWithPath:self.filePath]];
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.filePath];
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Track title: %@ is local: %d full path %@", self.title, self.isLocal, self.filePath];
 }
 
 @end

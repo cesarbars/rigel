@@ -9,6 +9,8 @@
 #import "ViewController.h"
 
 #import "AbstractMultipeerController.h"
+#import "LibraryBuildOperation.h"
+#import "LibraryShareOperation.h"
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 #import "MultipeerSessionManager.h"
@@ -57,9 +59,17 @@
     ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
-    
+    LibraryBuildOperation *libraryBuildOperation = [[LibraryBuildOperation alloc] init];
+    libraryBuildOperation.qualityOfService = NSQualityOfServiceUtility;
+    [libraryBuildOperation addDependency:indexOperation];
+
+    LibraryShareOperation *libraryShareOperation = [[LibraryShareOperation alloc] init];
+    libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
+    [libraryShareOperation addDependency:libraryBuildOperation];
 
     [[NSOperationQueue mainQueue] addOperation:indexOperation];
+    [[NSOperationQueue mainQueue] addOperation:libraryBuildOperation];
+    [[NSOperationQueue mainQueue] addOperation:libraryShareOperation];
 }
 
 #pragma mark Actions

@@ -10,7 +10,6 @@
 
 #import "MultipeerSessionManager.h"
 #import "RigelErrorHandler.h"
-#import "DownloadFileManager.h"
 
 @interface ResourcesIndexDownloadOperation () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
@@ -65,16 +64,16 @@
 
 #pragma mark NSURLSessionDataDelegate
 
--(void)URLSession:(NSURLSession *)session task:(nonnull NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+- (void)URLSession:(NSURLSession *)session task:(nonnull NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
     if (error) {
         [RigelErrorHandler handleError:error withCustomDescription:@"Index resources plist download failed"];
     }
 }
 
--(void)URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(nonnull NSURL *)location {
+- (void)URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(nonnull NSURL *)location {
     NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    NSString *folder = [documentsPath stringByAppendingPathComponent:@"downloads"];
-    NSFileManager *fileManager = [DownloadFileManager sharedInstance].sharedFileManager;
+    NSString *folder = [documentsPath stringByAppendingPathComponent:@"downloads/index/"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     NSError *error = nil;
 
     if (![fileManager fileExistsAtPath:folder]){
@@ -82,20 +81,22 @@
     }    
 
     if (!error) {
-        NSURL *indexURL = [NSURL fileURLWithPath:folder];
+        NSString  *newFilePath = [folder stringByAppendingPathComponent:@"index.plist"];    
+        NSURL *indexURL = [NSURL fileURLWithPath:newFilePath];
         // Removes file if already there
-        if ([fileManager fileExistsAtPath:folder]) {
+        if ([fileManager fileExistsAtPath:newFilePath]) {
             [fileManager removeItemAtURL:indexURL error:nil];
         }
         // Moves from temp location to known directory
-        [fileManager copyItemAtURL:location toURL:[NSURL fileURLWithPath:folder] error:&error];
+        [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:newFilePath] error:&error];
+
     }
 
     if (error) {
-        [RigelErrorHandler handleError:[NSError errorWithDomain:RigelErrorDomain code:1001 userInfo:nil]];
+        [RigelErrorHandler handleError:[NSError errorWithDomain:RigelErrorDomain code:1001 userInfo:error.userInfo]];
     }
 
-    NSLog(@"Index file sucessfully downloaded and copied to dowloads folder");
+    NSLog(@"Index file sucessfully downloaded and copied to dowloads folder.");
 
     self.success = YES;
 
