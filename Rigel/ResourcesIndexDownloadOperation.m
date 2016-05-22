@@ -80,9 +80,17 @@
     }
 
     if (!error) {
+        NSURL *indexURL = [NSURL URLWithString:folder];
+        // Removes file if already there
+        if ([fileManager fileExistsAtPath:indexURL.absoluteString]) {
+            [fileManager removeItemAtURL:indexURL error:nil];
+        }
+        // Moves from temp location to known directory
         [fileManager copyItemAtURL:location toURL:[NSURL URLWithString:folder] error:&error];
-    } else {
-        [self cancel];
+    }
+
+    if (error) {
+        [RigelErrorHandler handleError:[NSError errorWithDomain:RigelErrorDomain code:1001 userInfo:nil]];
     }
 
     NSLog(@"Index file sucessfully downloaded at location %@", location);

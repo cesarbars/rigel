@@ -10,8 +10,9 @@
 
 @interface RigelErrorHandler : NSObject
 
-+ (void)handleError:(NSError *)error;
+extern NSString * const RigelErrorDomain;
 
++ (void)handleError:(NSError *)error;
 + (void)handleError:(NSError *)error withCustomDescription:(NSString *)description;
 
 @end

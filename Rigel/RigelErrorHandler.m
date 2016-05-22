@@ -8,6 +8,8 @@
 
 #import "RigelErrorHandler.h"
 
+NSString * const RigelErrorDomain = @"com.cesarbars.rigel";
+
 @implementation RigelErrorHandler
 
 + (void)handleError:(NSError *)error {
