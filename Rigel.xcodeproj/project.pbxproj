@@ -107,34 +107,13 @@
 		DB6ADC1A1CCDBE8200C8A5CB /* Rigel */ = {
 			isa = PBXGroup;
 			children = (
-				DB6ADC1E1CCDBE8200C8A5CB /* AppDelegate.h */,
-				DB6ADC1F1CCDBE8200C8A5CB /* AppDelegate.m */,
-				DBDBF81E1CDB7823006BE736 /* MultipeerBrowserController.h */,
-				DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */,
-				DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */,
-				DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */,
-				DBB8796F1CE2E022005EC483 /* ResourcesIndexDownloadOperation.h */,
-				DBB879701CE2E022005EC483 /* ResourcesIndexDownloadOperation.m */,
-				DBD7B93E1CF21E0200C6212F /* RigelOperation.h */,
-				DBD7B93F1CF21E0200C6212F /* RigelOperation.m */,
-				DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */,
-				DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */,
-				DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */,
-				DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */,
-				DB6ADC211CCDBE8200C8A5CB /* ViewController.h */,
-				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
-				DB8C15801CEA5AF40057A437 /* Track.h */,
-				DB8C15811CEA5AF40057A437 /* Track.m */,
-				DB8C15831CEA5B960057A437 /* DownloadFileManager.h */,
-				DB8C15841CEA5B960057A437 /* DownloadFileManager.m */,
-				DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */,
-				DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */,
-				DBB879751CE2E928005EC483 /* RigelErrorHandler.h */,
-				DBB879761CE2E928005EC483 /* RigelErrorHandler.m */,
-				DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */,
-				DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */,
-				DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */,
-				DB6ADC2C1CCDBE8200C8A5CB /* Info.plist */,
+				DBD7B9461CF2229A00C6212F /* Application */,
+				DBD7B9411CF2223300C6212F /* Multipeer Controllers */,
+				DBD7B9421CF2224000C6212F /* Operations */,
+				DBD7B9431CF2226500C6212F /* View Controllers */,
+				DBD7B9441CF2226E00C6212F /* Model */,
+				DBD7B9451CF2228F00C6212F /* Handlers */,
+				DBD7B9471CF222A800C6212F /* Interface */,
 				DB6ADC1B1CCDBE8200C8A5CB /* Supporting Files */,
 			);
 			path = Rigel;
@@ -143,6 +122,8 @@
 		DB6ADC1B1CCDBE8200C8A5CB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB6ADC2C1CCDBE8200C8A5CB /* Info.plist */,
+				DB6ADC271CCDBE8200C8A5CB /* Assets.xcassets */,
 				DBA80F7D1CD7F96300CF7EEF /* daddy.mp3 */,
 				DB6ADC1C1CCDBE8200C8A5CB /* main.m */,
 			);
@@ -155,6 +136,81 @@
 				DB8E9B051CCDC64100187252 /* MultipeerConnectivity.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DBD7B9411CF2223300C6212F /* Multipeer Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DBA80F771CD7F12000CF7EEF /* AbstractMultipeerController.h */,
+				DBA80F781CD7F12000CF7EEF /* AbstractMultipeerController.m */,
+				DBDBF8211CDB8C7C006BE736 /* MultipeerAdvertiserController.h */,
+				DBDBF8221CDB8C7C006BE736 /* MultipeerAdvertiserController.m */,
+				DBDBF81E1CDB7823006BE736 /* MultipeerBrowserController.h */,
+				DBDBF81F1CDB7823006BE736 /* MultipeerBrowserController.m */,
+				DBA80F7A1CD7F18E00CF7EEF /* MultipeerSessionManager.h */,
+				DBA80F7B1CD7F18E00CF7EEF /* MultipeerSessionManager.m */,
+			);
+			name = "Multipeer Controllers";
+			sourceTree = "<group>";
+		};
+		DBD7B9421CF2224000C6212F /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				DBB8796F1CE2E022005EC483 /* ResourcesIndexDownloadOperation.h */,
+				DBB879701CE2E022005EC483 /* ResourcesIndexDownloadOperation.m */,
+				DBD7B93E1CF21E0200C6212F /* RigelOperation.h */,
+				DBD7B93F1CF21E0200C6212F /* RigelOperation.m */,
+			);
+			name = Operations;
+			sourceTree = "<group>";
+		};
+		DBD7B9431CF2226500C6212F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ADC211CCDBE8200C8A5CB /* ViewController.h */,
+				DB6ADC221CCDBE8200C8A5CB /* ViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		DBD7B9441CF2226E00C6212F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				DB8C15831CEA5B960057A437 /* DownloadFileManager.h */,
+				DB8C15841CEA5B960057A437 /* DownloadFileManager.m */,
+				DB8C15801CEA5AF40057A437 /* Track.h */,
+				DB8C15811CEA5AF40057A437 /* Track.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DBD7B9451CF2228F00C6212F /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				DBB879751CE2E928005EC483 /* RigelErrorHandler.h */,
+				DBB879761CE2E928005EC483 /* RigelErrorHandler.m */,
+			);
+			name = Handlers;
+			sourceTree = "<group>";
+		};
+		DBD7B9461CF2229A00C6212F /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ADC1E1CCDBE8200C8A5CB /* AppDelegate.h */,
+				DB6ADC1F1CCDBE8200C8A5CB /* AppDelegate.m */,
+				DBDBF8241CDBFAFC006BE736 /* RigelAppContext.h */,
+				DBDBF8251CDBFAFC006BE736 /* RigelAppContext.m */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
+		DBD7B9471CF222A800C6212F /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				DB6ADC241CCDBE8200C8A5CB /* Main.storyboard */,
+				DB6ADC291CCDBE8200C8A5CB /* LaunchScreen.storyboard */,
+			);
+			name = Interface;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
