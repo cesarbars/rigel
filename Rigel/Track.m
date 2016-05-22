@@ -35,7 +35,7 @@
 }
 
 - (BOOL)isLocal {
-    return [[DownloadFileManager sharedInstance] fileExistsAtURL:[NSURL URLWithString:self.filePath]];
+    return [[DownloadFileManager sharedInstance] fileExistsAtURL:[NSURL fileURLWithPath:self.filePath]];
 }
 
 @end
