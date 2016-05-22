@@ -6,12 +6,14 @@
 //  Copyright © 2016 Cesar Barscevicius. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+#import "RigelOperation.h"
 
 @class MultipeerSessionManager;
 
-@interface ResourcesIndexDownloadOperation : NSOperation
+@interface ResourcesIndexDownloadOperation : RigelOperation
 
-- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager completionHandler:(void (^)(NSDictionary *indexDictionary))completionHandler NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager NS_DESIGNATED_INITIALIZER;
 
 @end
