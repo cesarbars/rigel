@@ -7,6 +7,7 @@
 //
 
 #import "MultipeerSessionManager.h"
+#import "RigelErrorHandler.h"
 
 #import <MultipeerConnectivity/MCSession.h>
 
@@ -45,11 +46,15 @@
 }
 
 - (void)sendResourceAtURL:(NSURL *)filePath progress:(void (^)(NSProgress *progress))progressBlock withCompletion:(void (^)(NSError *))completionBlock {
-    NSProgress *progress = [self.session sendResourceAtURL:filePath withName:filePath.lastPathComponent toPeer:self.session.connectedPeers.firstObject withCompletionHandler:completionBlock];
+    if (self.session.connectedPeers.firstObject) {
+        NSProgress *progress = [self.session sendResourceAtURL:filePath withName:filePath.lastPathComponent toPeer:self.session.connectedPeers.firstObject withCompletionHandler:completionBlock];
 
-    self.progressBlock = progressBlock;
-    if (self.progressBlock) {
-        [progress addObserver:self forKeyPath:NSStringFromSelector(@selector(fractionCompleted)) options:NSKeyValueObservingOptionInitial context:nil];
+        self.progressBlock = progressBlock;
+        if (self.progressBlock) {
+            [progress addObserver:self forKeyPath:NSStringFromSelector(@selector(fractionCompleted)) options:NSKeyValueObservingOptionInitial context:nil];
+        }
+    } else {
+        completionBlock ([NSError errorWithDomain:RigelErrorDomain code:1004 userInfo:nil]);
     }
 }
 

@@ -14,6 +14,8 @@
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 #import "MultipeerSessionManager.h"
+#import "Library.h"
+#import "Track.h"
 #import "ResourcesIndexDownloadOperation.h"
 #import "RigelAppContext.h"
 #import "RigelAppContext.h"
@@ -21,6 +23,8 @@
 @interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate>
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
+
+@property (nonatomic, strong) Library *library;
 
 @end
 
@@ -56,14 +60,21 @@
 }
 
 - (void)beginIndexOperation {
-    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"] sessionManager:self.multipeerController.sessionManager];
+    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"]];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
     LibraryBuildOperation *libraryBuildOperation = [[LibraryBuildOperation alloc] init];
     libraryBuildOperation.qualityOfService = NSQualityOfServiceUtility;
     [libraryBuildOperation addDependency:indexOperation];
+    __weak __typeof__(self) weakSelf = self;
+    __weak __typeof__(LibraryBuildOperation *) weakLibraryBuildOperation = libraryBuildOperation;
+    libraryBuildOperation.completionBlock = ^{
+        if ([weakLibraryBuildOperation.data isKindOfClass:[Library class]]) {
+            weakSelf.library = (Library *)weakLibraryBuildOperation.data;
+        }
+    };
 
-    LibraryShareOperation *libraryShareOperation = [[LibraryShareOperation alloc] init];
+    LibraryShareOperation *libraryShareOperation = [[LibraryShareOperation alloc] initWithSessionManager:self.multipeerController.sessionManager];
     libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
     [libraryShareOperation addDependency:libraryBuildOperation];
 
@@ -122,7 +133,7 @@
 }
 
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {
-    NSLog(@"Got resources");
+    NSLog(@"Got resource %@ at %@", resourceName, localURL);
 }
 
 @end

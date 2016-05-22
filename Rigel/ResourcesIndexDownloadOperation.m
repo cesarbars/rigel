@@ -8,13 +8,11 @@
 
 #import "ResourcesIndexDownloadOperation.h"
 
-#import "MultipeerSessionManager.h"
 #import "RigelErrorHandler.h"
 
 @interface ResourcesIndexDownloadOperation () <NSURLSessionDataDelegate, NSURLSessionDelegate, NSURLSessionTaskDelegate>
 
 @property (nonatomic, strong) NSURL *resourcesURL;
-@property (nonatomic, strong) MultipeerSessionManager *sessionManager;
 @property (nonatomic, strong) NSURLSession *session;
 
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
@@ -24,14 +22,13 @@
 @implementation ResourcesIndexDownloadOperation
 
 - (instancetype)init {
-    self = [self initWithResourcesIndexURL:nil sessionManager:nil];
+    self = [self initWithResourcesIndexURL:nil];
     return self;
 }
 
-- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager {
+- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL {
     if (self = [super init]) {
         _resourcesURL = resourcesURL;
-        _sessionManager = sessionManager;
     }
 
     return self;
@@ -58,7 +55,6 @@
 - (void)dealloc {
     [_session invalidateAndCancel];
     _session = nil;
-    _sessionManager = nil;
     _resourcesURL = nil;
 }
 
@@ -81,7 +77,7 @@
     }    
 
     if (!error) {
-        NSString  *newFilePath = [folder stringByAppendingPathComponent:@"index.plist"];    
+        NSString *newFilePath = [folder stringByAppendingPathComponent:@"index.plist"];
         NSURL *indexURL = [NSURL fileURLWithPath:newFilePath];
         // Removes file if already there
         if ([fileManager fileExistsAtPath:newFilePath]) {

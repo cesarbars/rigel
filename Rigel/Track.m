@@ -38,7 +38,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Track title: %@ is local: %d full path %@", self.title, self.isLocal, self.filePath];
+    return [NSString stringWithFormat:@"Track title: %@ is local: %d/n Full path %@", self.title, self.isLocal, self.filePath];
 }
 
 @end

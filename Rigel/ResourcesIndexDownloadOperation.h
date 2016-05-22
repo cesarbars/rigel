@@ -10,10 +10,8 @@
 
 #import "RigelOperation.h"
 
-@class MultipeerSessionManager;
-
 @interface ResourcesIndexDownloadOperation : RigelOperation
 
-- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL sessionManager:(MultipeerSessionManager *)sessionManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithResourcesIndexURL:(NSURL *)resourcesURL;
 
 @end
