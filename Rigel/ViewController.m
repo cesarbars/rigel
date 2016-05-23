@@ -22,13 +22,15 @@
 #import "RigelAppContext.h"
 
 NSString * const RigelIndexShareFilename = @"index_share.plist";
+NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
-@interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate>
+@interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate, LibraryDataDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
-
 @property (nonatomic, strong) LibraryShareOperation *libraryShareOperation;
 @property (nonatomic, strong) Library *library;
+
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
 
 @end
 
@@ -58,9 +60,16 @@ NSString * const RigelIndexShareFilename = @"index_share.plist";
 }
 
 - (void)setup {
+    [self.multipeerController.sessionManager.session disconnect];
+
     [self.multipeerController setup];
     self.multipeerController.delegate = self;
     self.multipeerController.sessionManager.delegate = self;
+
+    self.library = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 - (void)beginIndexOperation {
@@ -75,8 +84,14 @@ NSString * const RigelIndexShareFilename = @"index_share.plist";
     __weak __typeof__(self) weakSelf = self;
     __weak __typeof__(LibraryBuildOperation *) weakLibraryBuildOperation = libraryBuildOperation;
     libraryBuildOperation.completionBlock = ^{
-        if ([weakLibraryBuildOperation.data isKindOfClass:[Library class]]) {
-            weakSelf.library = (Library *)weakLibraryBuildOperation.data;
+        __strong __typeof__(weakSelf) strongSelf = weakSelf;
+        __strong __typeof__(LibraryBuildOperation *) strongLibraryBuildOperation = weakLibraryBuildOperation;
+        if ([strongLibraryBuildOperation.data isKindOfClass:[Library class]]) {
+            strongSelf.library = (Library *)strongLibraryBuildOperation.data;
+            strongSelf.library.delegate = strongSelf;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf.tableView reloadData];
+            });
         }
     };
 
@@ -113,6 +128,10 @@ NSString * const RigelIndexShareFilename = @"index_share.plist";
         case MCSessionStateNotConnected: {
             color = [UIColor colorWithRed:1.0 green:.451 blue:.424 alpha:1.0];
             // Tries to reconnect
+            self.library = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
             [self setup];
         }
             break;
@@ -149,6 +168,40 @@ NSString * const RigelIndexShareFilename = @"index_share.plist";
 
         [[NSOperationQueue mainQueue] addOperation:updateOperation];
     }
+}
+
+#pragma mark UITableViewDatasource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.library.trackCount;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RigelReusableCellIdentifier forIndexPath:indexPath];
+
+    Track *track = [self.library trackAtIndex:indexPath.row];
+    cell.textLabel.text = track.title;
+
+    NSString *availabilityLabel = @"";
+    if (track.isLocal) {
+        availabilityLabel = [availabilityLabel stringByAppendingString:@"Local "];
+    }
+
+    if (track.isRemote) {
+        availabilityLabel = [availabilityLabel stringByAppendingString:@"Remote "];
+    }
+
+    cell.detailTextLabel.text = availabilityLabel;
+
+    return cell;
+}
+
+#pragma mark LibraryDataDelegate
+
+- (void)libraryTracksDidChange {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 @end

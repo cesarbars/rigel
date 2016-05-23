@@ -33,7 +33,7 @@ extern NSString * const RigelSharedSecretValue;
 
 @interface AbstractMultipeerController : NSObject <MultipeerConnectionProtocol>
 
-@property (nonatomic, weak) id delegate;
+@property (nonatomic, weak) id <MultipeerConnectionDelegate> delegate;
 @property (nonatomic, strong) MultipeerSessionManager *sessionManager;
 
 - (MCPeerID*)localPeerID;

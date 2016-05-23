@@ -27,11 +27,24 @@
 
 - (void)addTrack:(Track *)track {
     [self.tracks addObject:track];
+
+    if ([self.delegate respondsToSelector:@selector(libraryTracksDidChange)]) {
+        [self.delegate libraryTracksDidChange];
+    }
 }
 
 - (void)replaceTracks:(NSArray <Track *> *)tracks {
     [self.tracks removeAllObjects];
     [self.tracks addObjectsFromArray:tracks];
+
+    if ([self.delegate respondsToSelector:@selector(libraryTracksDidChange)]) {
+        [self.delegate libraryTracksDidChange];
+    }
+}
+
+- (Track *)trackAtIndex:(NSUInteger)index {
+    
+    return [self.tracks objectAtIndex:index];
 }
 
 - (Track *)findTrackWithTitle:(NSString *)title {
@@ -47,6 +60,9 @@
     for (Track *oldtrack in self.tracks) {
         if ([oldtrack.title isEqualToString:newTrack.title]) {
             [self.tracks replaceObjectAtIndex:[self.tracks indexOfObject:oldtrack] withObject:newTrack];
+            if ([self.delegate respondsToSelector:@selector(libraryTracksDidChange)]) {
+                [self.delegate libraryTracksDidChange];
+            }
             return YES;
         }
     }
@@ -56,6 +72,10 @@
 
 - (NSArray <Track *> *)allTracks {
     return [self.tracks copy];
+}
+
+- (NSUInteger)trackCount {
+    return self.tracks.count;
 }
 
 - (NSString *)description {
