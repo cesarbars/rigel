@@ -101,15 +101,15 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 }
 
 - (void)cleanAllLabels {
-    NSArray *labelsArray = @[self.downloadTitleLabel, self.downloadLocalStatusLabel, self.downloadRemoteStatusLabel, self.downloadLocalTimeLabel, self.downloadRemoteTimeLabel];
+    NSArray *labelsArray = @[self.downloadLocalStatusLabel, self.downloadRemoteStatusLabel, self.downloadLocalTimeLabel, self.downloadRemoteTimeLabel];
     for (UILabel *label in labelsArray) {
         dispatch_async(dispatch_get_main_queue(), ^{
             label.text = @"";
         });
     }
 
-    self.downloadRemoteTitleLabel.alpha = 0.4f;
-    self.downloadLocalTitleLabel.alpha = 0.4f;
+    self.downloadRemoteTitleLabel.alpha = 0.2f;
+    self.downloadLocalTitleLabel.alpha = 0.2f;
 
     self.downloadLocalProgressView.progress = 0.0f;
     self.downloadRemoteProgressView.progress = 0.0f;
@@ -299,14 +299,15 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cleanAllLabels];
 
-        self.downloadTitleLabel.text = [NSString stringWithFormat:@"%@.mp3", track.title];
+        NSString *title = [NSString stringWithFormat:@"%@.mp3", track.title];
+        self.downloadTitleLabel.text = title;
     });
 }
 
 - (void)didReceiveSourcesAvailability:(RigelDownloadSource)availability forTrack:(Track *)track {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.downloadLocalTitleLabel.alpha = 0.4f;
-        self.downloadRemoteTitleLabel.alpha = 0.4f;
+        self.downloadLocalTitleLabel.alpha = 0.2f;
+        self.downloadRemoteTitleLabel.alpha = 0.2f;
 
         if (availability & RigelSourceLocal) {
             self.downloadLocalTitleLabel.alpha = 1.0f;
