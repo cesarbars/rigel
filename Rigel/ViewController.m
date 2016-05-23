@@ -207,7 +207,9 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
         LibraryRemoteUpdateOperation *updateOperation = [[LibraryRemoteUpdateOperation alloc] initWithSharedIndexFileURL:localURL];
         updateOperation.qualityOfService = NSQualityOfServiceUserInteractive;
-        [updateOperation addDependency:self.libraryShareOperation];
+        if (self.libraryShareOperation) {
+            [updateOperation addDependency:self.libraryShareOperation];
+        }
 
         [self.rigelUtilityOperationQueue addOperation:updateOperation];
     }
@@ -296,6 +298,7 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self cleanAllLabels];
+
         self.downloadTitleLabel.text = [NSString stringWithFormat:@"%@.mp3", track.title];
     });
 }
