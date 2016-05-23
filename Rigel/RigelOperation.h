@@ -13,4 +13,6 @@
 @property (nonatomic) BOOL success;
 @property (nonatomic) id data;
 
+- (void)failOperation;
+
 @end

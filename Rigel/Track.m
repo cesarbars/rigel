@@ -11,7 +11,7 @@
 @interface Track ()
 
 @property (nonatomic, copy, readwrite) NSString *title;
-@property (nonatomic, copy) NSString *filePath;
+@property (nonatomic, copy, readwrite) NSString *filePath;
 
 @end
 

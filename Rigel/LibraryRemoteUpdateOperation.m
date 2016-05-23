@@ -74,9 +74,4 @@
     }
 }
 
-- (void)failOperation {
-    self.success = NO;
-    [self cancel];
-}
-
 @end

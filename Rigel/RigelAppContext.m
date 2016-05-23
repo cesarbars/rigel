@@ -12,6 +12,8 @@
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 
+NSString * const RigelBaseURLString = @"https://rigel-media.s3.amazonaws.com/";
+
 @implementation RigelAppContext
 
 + (RigelAppState)currentState {

@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 @class AbstractMultipeerController;
 
+extern NSString * const RigelBaseURLString;
+
 typedef NS_ENUM(NSUInteger, RigelAppState) {
     RigelAppStateBrowser,
     RigelAppStateAdvertiser,
 };
+
 
 @interface RigelAppContext : NSObject
 

@@ -18,8 +18,10 @@
 #import "MultipeerSessionManager.h"
 #import "Track.h"
 #import "ResourcesIndexDownloadOperation.h"
+#import "ResourceDownloadOperation.h"
 #import "RigelAppContext.h"
-#import "RigelAppContext.h"
+#import "RigelErrorHandler.h"
+
 
 NSString * const RigelIndexShareFilename = @"index_share.plist";
 NSString * const RigelReusableCellIdentifier = @"rigel-cell";
@@ -28,6 +30,7 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 @property (nonatomic, strong) LibraryShareOperation *libraryShareOperation;
+@property (nonatomic, strong) ResourceDownloadOperation *resourceDownloadOperation;
 @property (nonatomic, strong) Library *library;
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
@@ -74,7 +77,7 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
 - (void)beginIndexOperation {
     // ResourcesIndexDownloadOperation
-    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"]];
+    ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:[RigelBaseURLString stringByAppendingString:@"index.plist"]]];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
     // LibraryBuildOperation
@@ -170,6 +173,25 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     }
 }
 
+- (void)didReceiveData:(NSData *)data {
+    NSDictionary *message = (NSDictionary*)[NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+    if ([message[RigelRequestMessageKeyAction] isEqualToString:RigelRequestMessageValueDownload]) {
+        // Download request
+        Track *requestedTrack = [self.library findTrackWithTitle:message[RigelRequestMessageKeyTitle]];
+        if (requestedTrack) {
+            [self.multipeerController.sessionManager sendResourceAtURL:[NSURL fileURLWithPath:requestedTrack.filePath] progress:nil withCompletion:^(NSError *error) {
+                if (!error) {
+                    NSLog(@"File %@ sucessfully sent to local request.", requestedTrack.title);
+                } else {
+                    [RigelErrorHandler handleError:error];
+                }
+            }];
+        }
+    }
+
+}
+
 #pragma mark UITableViewDatasource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -187,13 +209,31 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
         availabilityLabel = [availabilityLabel stringByAppendingString:@"Local "];
     }
 
-    if (track.isRemote) {
+    if (track.isRemoteAvailable) {
         availabilityLabel = [availabilityLabel stringByAppendingString:@"Remote "];
     }
 
     cell.detailTextLabel.text = availabilityLabel;
 
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    Track *selectedTrack = [self.library trackAtIndex:indexPath.row];
+
+    if (selectedTrack.isLocal) {
+        // Local
+        NSLog(@"Start playing %@", selectedTrack);
+        return;
+    }
+
+    // Should start download operation
+    self.resourceDownloadOperation = [[ResourceDownloadOperation alloc] initWithSessionManager:self.multipeerController.sessionManager track:selectedTrack library:self.library];
+    self.resourceDownloadOperation.qualityOfService = NSQualityOfServiceUserInitiated;
+
+    [[NSOperationQueue mainQueue] addOperation:self.resourceDownloadOperation];
 }
 
 #pragma mark LibraryDataDelegate

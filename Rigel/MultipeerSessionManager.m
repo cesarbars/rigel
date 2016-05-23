@@ -11,6 +11,10 @@
 
 #import <MultipeerConnectivity/MCSession.h>
 
+NSString * const RigelRequestMessageKeyTitle = @"title";
+NSString * const RigelRequestMessageKeyAction = @"action";
+NSString * const RigelRequestMessageValueDownload = @"download";
+
 @interface MultipeerSessionManager () <MCSessionDelegate>
 
 @property (nonatomic, strong) MCPeerID *connectedPeerID;
@@ -64,6 +68,22 @@
     }
 }
 
+- (BOOL)sendData:(NSData *)data {
+    if (self.session.connectedPeers.firstObject) {
+        NSError *error;
+        [self.session sendData:data toPeers:@[self.session.connectedPeers.firstObject] withMode:MCSessionSendDataReliable error:&error];
+        if (error) {
+            [RigelErrorHandler handleError:error];
+            return NO;
+        }
+    } else {
+        [RigelErrorHandler handleError:[NSError errorWithDomain:RigelErrorDomain code:1004 userInfo:nil] withCustomDescription:@"Peer seemes to be disconected."];
+        return NO;
+    }
+
+    return YES;
+}
+
 #pragma mark MCSessionDelegate 
 
 // Remote peer changed state.
@@ -95,7 +115,10 @@
 
 // Received data from remote peer.
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID {
-
+    NSLog(@"Did receive data message");
+    if ([self.delegate respondsToSelector:@selector(didReceiveData:)]) {
+        [self.delegate didReceiveData:data];
+    }
 }
 
 // Received a byte stream from remote peer.
@@ -106,6 +129,12 @@
 // Start receiving a resource from remote peer.
 - (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress {
     NSLog(@"Did begin receiving %@", resourceName);
+
+    if ([resourceName containsString:@".mp3"]) {
+        if ([self.downloadDelegate respondsToSelector:@selector(didStartReceivingResourceWithName:withProgress:)]) {
+            [self.downloadDelegate didStartReceivingResourceWithName:resourceName withProgress:progress];
+        }
+    }
 }
 
 // Finished receiving a resource from remote peer and saved the content
@@ -113,11 +142,16 @@
 // to a permanent location within its sandbox.
 - (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(nullable NSError *)error {
     NSLog(@"Did finish receiving %@", resourceName);
-    if ([self.delegate respondsToSelector:@selector(didReceiveResource:atURL:)]) {
-        [self.delegate didReceiveResource:resourceName atURL:localURL];
+    if (![resourceName containsString:@".mp3"]) {
+        if ([self.delegate respondsToSelector:@selector(didReceiveResource:atURL:)]) {
+            [self.delegate didReceiveResource:resourceName atURL:localURL];
+        }
+    } else {
+        if ([self.downloadDelegate respondsToSelector:@selector(didReceiveResource:atURL:)]) {
+            [self.downloadDelegate didReceiveResource:resourceName atURL:localURL];
+        }
     }
 }
-
 
 // Necessary due to bug on MCFramework
 

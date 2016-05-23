@@ -12,7 +12,9 @@
 
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, getter=isLocal, readonly) BOOL localAvailable;
-@property (nonatomic, getter=isRemote) BOOL remoteAvailable;
+@property (nonatomic, getter=isRemoteAvailable) BOOL remoteAvailable;
+
+@property (nonatomic, copy, readonly) NSString *filePath;
 
 - (instancetype)initWithTrackTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
 
