@@ -60,9 +60,11 @@
 }
 
 - (void)beginIndexOperation {
+    // ResourcesIndexDownloadOperation
     ResourcesIndexDownloadOperation *indexOperation = [[ResourcesIndexDownloadOperation alloc] initWithResourcesIndexURL:[NSURL URLWithString:@"https://rigel-media.s3.amazonaws.com/index.plist"]];
     indexOperation.qualityOfService = NSQualityOfServiceUtility;
 
+    // LibraryBuildOperation
     LibraryBuildOperation *libraryBuildOperation = [[LibraryBuildOperation alloc] init];
     libraryBuildOperation.qualityOfService = NSQualityOfServiceUtility;
     [libraryBuildOperation addDependency:indexOperation];
@@ -74,6 +76,7 @@
         }
     };
 
+    // LibraryShareOperation
     LibraryShareOperation *libraryShareOperation = [[LibraryShareOperation alloc] initWithSessionManager:self.multipeerController.sessionManager];
     libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
     [libraryShareOperation addDependency:libraryBuildOperation];
