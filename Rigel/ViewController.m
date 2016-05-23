@@ -11,19 +11,23 @@
 #import "AbstractMultipeerController.h"
 #import "LibraryBuildOperation.h"
 #import "LibraryShareOperation.h"
+#import "LibraryRemoteUpdateOperation.h"
+#import "Library.h"
 #import "MultipeerAdvertiserController.h"
 #import "MultipeerBrowserController.h"
 #import "MultipeerSessionManager.h"
-#import "Library.h"
 #import "Track.h"
 #import "ResourcesIndexDownloadOperation.h"
 #import "RigelAppContext.h"
 #import "RigelAppContext.h"
 
+NSString * const RigelIndexShareFilename = @"index_share.plist";
+
 @interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate>
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 
+@property (nonatomic, strong) LibraryShareOperation *libraryShareOperation;
 @property (nonatomic, strong) Library *library;
 
 @end
@@ -77,13 +81,13 @@
     };
 
     // LibraryShareOperation
-    LibraryShareOperation *libraryShareOperation = [[LibraryShareOperation alloc] initWithSessionManager:self.multipeerController.sessionManager];
-    libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
-    [libraryShareOperation addDependency:libraryBuildOperation];
+    self.libraryShareOperation = [[LibraryShareOperation alloc] initWithSessionManager:self.multipeerController.sessionManager];
+    self.libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
+    [self.libraryShareOperation addDependency:libraryBuildOperation];
 
     [[NSOperationQueue mainQueue] addOperation:indexOperation];
     [[NSOperationQueue mainQueue] addOperation:libraryBuildOperation];
-    [[NSOperationQueue mainQueue] addOperation:libraryShareOperation];
+    [[NSOperationQueue mainQueue] addOperation:self.libraryShareOperation];
 }
 
 #pragma mark Actions
@@ -136,7 +140,15 @@
 }
 
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {
-    NSLog(@"Got resource %@ at %@", resourceName, localURL);
+    if ([resourceName isEqualToString:RigelIndexShareFilename]) {
+        NSLog(@"Received index share file.");
+
+        LibraryRemoteUpdateOperation *updateOperation = [[LibraryRemoteUpdateOperation alloc] initWithSharedIndexFileURL:localURL];
+        updateOperation.qualityOfService = NSQualityOfServiceUserInteractive;
+        [updateOperation addDependency:self.libraryShareOperation];
+
+        [[NSOperationQueue mainQueue] addOperation:updateOperation];
+    }
 }
 
 @end

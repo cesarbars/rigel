@@ -47,6 +47,7 @@
     Library *library = nil;
     if ([lastDependency.data isKindOfClass:[Library class]]) {
         library = (Library *)lastDependency.data;
+        self.data = library;
     } else {
         [self failOperation];
         return;
