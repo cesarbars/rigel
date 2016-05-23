@@ -244,16 +244,20 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     Track *track = [self.library trackAtIndex:indexPath.row];
     cell.textLabel.text = track.title;
 
-    NSString *availabilityLabel = @"";
+    NSString *availabilityString = @"";
     if (track.isLocal) {
-        availabilityLabel = [availabilityLabel stringByAppendingString:@"Downloaded "];
+        availabilityString = [availabilityString stringByAppendingString:@"Downloaded "];
     }
 
     if (track.isRemoteAvailable) {
-        availabilityLabel = [availabilityLabel stringByAppendingString:@"MANET-Available "];
+        if (availabilityString.length > 0) {
+            availabilityString = [availabilityString stringByAppendingString:@"& "];
+        }
+
+        availabilityString = [availabilityString stringByAppendingString:@"MANET-Available "];
     }
 
-    cell.detailTextLabel.text = availabilityLabel;
+    cell.detailTextLabel.text = availabilityString;
 
     return cell;
 }
