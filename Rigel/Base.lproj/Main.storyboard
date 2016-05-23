@@ -74,12 +74,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="downloading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IzN-3l-aml">
-                                <rect key="frame" x="441" y="416" width="74" height="21"/>
+                                <rect key="frame" x="429" y="416" width="86" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="74" id="6g2-f4-6Zj"/>
+                                    <constraint firstAttribute="width" constant="86" id="6g2-f4-6Zj"/>
                                     <constraint firstAttribute="height" constant="21" id="sR9-9l-Klk"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" red="0.13333333333333333" green="0.67450980392156867" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -117,12 +117,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="cancelled" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J69-gw-Qhm">
-                                <rect key="frame" x="441" y="476" width="74" height="21"/>
+                                <rect key="frame" x="429" y="476" width="86" height="21"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="74" id="H64-Uk-yV5"/>
+                                    <constraint firstAttribute="width" constant="86" id="H64-Uk-yV5"/>
                                     <constraint firstAttribute="height" constant="21" id="SvK-OI-CfM"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                 <color key="textColor" red="0.8666666666666667" green="0.20392156862745098" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -249,6 +249,15 @@
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="downloadLocalProgressView" destination="DO4-Nf-DGM" id="yK8-s9-Bvc"/>
+                        <outlet property="downloadLocalStatusLabel" destination="IzN-3l-aml" id="v5h-g9-nZ3"/>
+                        <outlet property="downloadLocalTimeLabel" destination="hwe-z9-Bxh" id="ev8-iq-lu7"/>
+                        <outlet property="downloadLocalTitleLabel" destination="0Xn-lO-pHw" id="yZi-h4-sJ7"/>
+                        <outlet property="downloadRemoteProgressView" destination="w1r-nb-ICh" id="ZVH-nn-o57"/>
+                        <outlet property="downloadRemoteStatusLabel" destination="J69-gw-Qhm" id="KGS-TC-j6C"/>
+                        <outlet property="downloadRemoteTimeLabel" destination="oU6-JQ-PXP" id="uxf-k4-fu4"/>
+                        <outlet property="downloadRemoteTitleLabel" destination="ol4-IA-XCN" id="7QG-uM-90K"/>
+                        <outlet property="downloadTitleLabel" destination="TQi-Vs-QkS" id="T9f-Em-7rd"/>
                         <outlet property="tableView" destination="EL9-O0-pdX" id="6BK-CV-YkC"/>
                     </connections>
                 </viewController>

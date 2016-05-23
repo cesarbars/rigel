@@ -26,14 +26,26 @@
 NSString * const RigelIndexShareFilename = @"index_share.plist";
 NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
-@interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate, LibraryDataDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <MultipeerConnectionDelegate, MultipeerSessionManagerDelegate, LibraryDataDelegate, UITableViewDelegate, UITableViewDataSource, ResourceDownloadDelegate>
 
 @property (nonatomic, strong) AbstractMultipeerController *multipeerController;
 @property (nonatomic, strong) LibraryShareOperation *libraryShareOperation;
 @property (nonatomic, strong) ResourceDownloadOperation *resourceDownloadOperation;
 @property (nonatomic, strong) Library *library;
+@property (nonatomic, strong) Track *activeTrack;
+@property (nonatomic, strong) NSOperationQueue *rigelUtilityOperationQueue;
+@property (nonatomic, strong) NSOperationQueue *rigelDownloadOperationQueue;
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, weak) IBOutlet UILabel *downloadTitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadLocalStatusLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadRemoteStatusLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadLocalTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadRemoteTimeLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadLocalTitleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *downloadRemoteTitleLabel;
+@property (nonatomic, weak) IBOutlet UIProgressView *downloadLocalProgressView;
+@property (nonatomic, weak) IBOutlet UIProgressView *downloadRemoteProgressView;
 
 @end
 
@@ -69,10 +81,38 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     self.multipeerController.delegate = self;
     self.multipeerController.sessionManager.delegate = self;
 
+    [self.rigelUtilityOperationQueue cancelAllOperations];
+    self.rigelUtilityOperationQueue = [[NSOperationQueue alloc] init];
+    self.rigelUtilityOperationQueue.name = @"Utility Operation Queue";
+    self.rigelUtilityOperationQueue.qualityOfService = NSQualityOfServiceUtility;
+    self.rigelUtilityOperationQueue.maxConcurrentOperationCount = 1;
+
+    [self.rigelDownloadOperationQueue cancelAllOperations];
+    self.rigelDownloadOperationQueue = [[NSOperationQueue alloc] init];
+    self.rigelDownloadOperationQueue.name = @"Download Operation Queue";
+    self.rigelDownloadOperationQueue.qualityOfService = NSQualityOfServiceUserInitiated;
+    self.rigelDownloadOperationQueue.maxConcurrentOperationCount = 1;
+
     self.library = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
+        [self cleanAllLabels];
     });
+}
+
+- (void)cleanAllLabels {
+    NSArray *labelsArray = @[self.downloadTitleLabel, self.downloadLocalStatusLabel, self.downloadRemoteStatusLabel, self.downloadLocalTimeLabel, self.downloadRemoteTimeLabel];
+    for (UILabel *label in labelsArray) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            label.text = @"";
+        });
+    }
+
+    self.downloadRemoteTitleLabel.alpha = 0.4f;
+    self.downloadLocalTitleLabel.alpha = 0.4f;
+
+    self.downloadLocalProgressView.progress = 0.0f;
+    self.downloadRemoteProgressView.progress = 0.0f;
 }
 
 - (void)beginIndexOperation {
@@ -103,9 +143,9 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     self.libraryShareOperation.qualityOfService = NSQualityOfServiceUtility;
     [self.libraryShareOperation addDependency:libraryBuildOperation];
 
-    [[NSOperationQueue mainQueue] addOperation:indexOperation];
-    [[NSOperationQueue mainQueue] addOperation:libraryBuildOperation];
-    [[NSOperationQueue mainQueue] addOperation:self.libraryShareOperation];
+    [self.rigelUtilityOperationQueue addOperation:indexOperation];
+    [self.rigelUtilityOperationQueue addOperation:libraryBuildOperation];
+    [self.rigelUtilityOperationQueue addOperation:self.libraryShareOperation];
 }
 
 #pragma mark Actions
@@ -169,7 +209,7 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
         updateOperation.qualityOfService = NSQualityOfServiceUserInteractive;
         [updateOperation addDependency:self.libraryShareOperation];
 
-        [[NSOperationQueue mainQueue] addOperation:updateOperation];
+        [self.rigelUtilityOperationQueue addOperation:updateOperation];
     }
 }
 
@@ -206,11 +246,11 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
     NSString *availabilityLabel = @"";
     if (track.isLocal) {
-        availabilityLabel = [availabilityLabel stringByAppendingString:@"Local "];
+        availabilityLabel = [availabilityLabel stringByAppendingString:@"Downloaded "];
     }
 
     if (track.isRemoteAvailable) {
-        availabilityLabel = [availabilityLabel stringByAppendingString:@"Remote "];
+        availabilityLabel = [availabilityLabel stringByAppendingString:@"MANET-Available "];
     }
 
     cell.detailTextLabel.text = availabilityLabel;
@@ -232,8 +272,9 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     // Should start download operation
     self.resourceDownloadOperation = [[ResourceDownloadOperation alloc] initWithSessionManager:self.multipeerController.sessionManager track:selectedTrack library:self.library];
     self.resourceDownloadOperation.qualityOfService = NSQualityOfServiceUserInitiated;
+    self.resourceDownloadOperation.delegate = self;
 
-    [[NSOperationQueue mainQueue] addOperation:self.resourceDownloadOperation];
+    [self.rigelDownloadOperationQueue addOperation:self.resourceDownloadOperation];
 }
 
 #pragma mark LibraryDataDelegate
@@ -241,6 +282,86 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 - (void)libraryTracksDidChange {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
+    });
+}
+
+#pragma mark ResourceDownloadDelegate
+
+- (void)didBeginDownloadOperationForTrack:(Track *)track {
+    self.activeTrack = track;
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self cleanAllLabels];
+        self.downloadTitleLabel.text = [NSString stringWithFormat:@"%@.mp3", track.title];
+    });
+}
+
+- (void)didReceiveSourcesAvailability:(RigelDownloadSource)availability forTrack:(Track *)track {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.downloadLocalTitleLabel.alpha = 0.4f;
+        self.downloadRemoteTitleLabel.alpha = 0.4f;
+
+        if (availability & RigelSourceLocal) {
+            self.downloadLocalTitleLabel.alpha = 1.0f;
+        }
+
+        if (availability & RigelSourceRemote) {
+            self.downloadRemoteTitleLabel.alpha = 1.0f;
+        }
+    });
+}
+
+- (void)didReceiveSource:(RigelDownloadSource)source downloadStatusUpdate:(RigelDownloadStatus)status forTrack:(Track *)track {
+    NSString *message = nil;
+    UIColor *color = nil;
+    switch (status) {
+        case RigelDownloadStatusPreparing: {
+            message = @"preparing";
+            color = [UIColor colorWithRed:.36 green:.42 blue:.74 alpha:1.0];
+        }
+            break;
+        case RigelDownloadStatusDownloading: {
+            message = @"downloading";
+            color = [UIColor colorWithRed:1.0 green:.835 blue:.424 alpha:1.0];
+        }
+            break;
+        case RigelDownloadStatusComplete: {
+            message = @"complete";
+            color = [UIColor colorWithRed:.345 green:.816 blue:.404 alpha:1.0];
+        }
+            break;
+        case RigelDownloadStatusCancelled: {
+            message = @"cancelled";
+            color = [UIColor colorWithRed:1.0 green:.451 blue:.424 alpha:1.0];
+
+        }
+            break;
+
+        default: {
+            message = @"";
+            color = [UIColor whiteColor];
+        }
+            break;
+    }
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (source == RigelSourceRemote) {
+            self.downloadRemoteStatusLabel.text = message;
+            self.downloadRemoteStatusLabel.textColor = color;
+        } else {
+            self.downloadLocalStatusLabel.text = message;
+            self.downloadLocalStatusLabel.textColor = color;
+        }
+    });
+}
+
+- (void)didReceiveSource:(RigelDownloadSource)source progressUpdate:(double)fractionCompleted forTrack:(Track *)track {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (source == RigelSourceRemote) {
+            [self.downloadRemoteProgressView setProgress:fractionCompleted animated:YES];
+        } else {
+            [self.downloadLocalProgressView setProgress:fractionCompleted animated:YES];
+        }
     });
 }
 
