@@ -6,6 +6,8 @@
 //  Copyright © 2016 Cesar Barscevicius. All rights reserved.
 //
 
+@import QuartzCore;
+
 #import "ResourceDownloadOperation.h"
 #import "MultipeerSessionManager.h"
 #import "Track.h"
@@ -20,6 +22,9 @@
 @property (nonatomic, strong) Library *library;
 @property (nonatomic, strong) MultipeerSessionManager *sessionManager;
 @property (nonatomic, strong) NSURLSession *session;
+
+@property (nonatomic, strong) NSString *localLog;
+@property (nonatomic, strong) NSString *remoteLog;
 
 @property (nonatomic) RigelDownloadSource source;
 
@@ -60,6 +65,9 @@
         [self.delegate didBeginDownloadOperationForTrack:self.track];
     }
 
+    self.localLog = nil;
+    self.remoteLog = nil;
+
     // Local (MANET) download
     if (self.track.isRemoteAvailable) {
         self.source = self.source | RigelSourceLocal;
@@ -70,6 +78,9 @@
         if ([self.delegate respondsToSelector:@selector(didReceiveSource:downloadStatusUpdate:forTrack:)]) {
             [self.delegate didReceiveSource:RigelSourceLocal downloadStatusUpdate:RigelDownloadStatusPreparing forTrack:self.track];
         }
+
+        self.localLog = [[NSString alloc] init];
+        self.localLog = [self.localLog stringByAppendingString:[NSString stringWithFormat:@"Local Download begins at %f\n", CACurrentMediaTime()]];
 
         [self sendFileRequestMessageForTrack:self.track];
     }
@@ -83,6 +94,9 @@
     if ([self.delegate respondsToSelector:@selector(didReceiveSource:downloadStatusUpdate:forTrack:)]) {
         [self.delegate didReceiveSource:RigelSourceRemote downloadStatusUpdate:RigelDownloadStatusPreparing forTrack:self.track];
     }
+
+    self.remoteLog = [[NSString alloc] init];
+    self.remoteLog = [self.remoteLog stringByAppendingString:[NSString stringWithFormat:@"Remote Download begins at %f\n", CACurrentMediaTime()]];
 
     [self sendHTTPDownloadRequestForTrack:self.track];
 
@@ -167,6 +181,11 @@
 - (void)didReceiveResource:(NSString *)resourceName atURL:(NSURL *)localURL {
     NSLog(@"Finished receiving LOCAL track.");
 
+    self.localLog = [self.localLog stringByAppendingString:[NSString stringWithFormat:@"Local Download completed at %f\n", CACurrentMediaTime()]];
+    NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *newFilePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@-local-log-%f.txt", self.track.title, CACurrentMediaTime()]];
+    [self.localLog writeToFile:newFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+
     [self moveDownloadedFileFromURL:localURL];
 
     if ([self.delegate respondsToSelector:@selector(didReceiveSource:downloadStatusUpdate:forTrack:)]) {
@@ -181,6 +200,8 @@
         if ([object isKindOfClass:[NSProgress class]]) {
             NSProgress *progress = (NSProgress *)object;
             NSLog(@"Track LOCAL download progress %.2f", progress.fractionCompleted);
+
+            self.localLog = [self.localLog stringByAppendingString:[NSString stringWithFormat:@"%f – LOCAL – %.2f\n", CACurrentMediaTime(), progress.fractionCompleted]];
 
             if ([self.delegate respondsToSelector:@selector(didReceiveSource:progressUpdate:forTrack:)]) {
                 [self.delegate didReceiveSource:RigelSourceLocal progressUpdate:progress.fractionCompleted forTrack:self.track];
@@ -204,6 +225,11 @@
 - (void)URLSession:(NSURLSession *)session downloadTask:(nonnull NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(nonnull NSURL *)location {
     NSLog(@"Finished receiving REMOTE track.");
 
+    self.remoteLog = [self.remoteLog stringByAppendingString:[NSString stringWithFormat:@"Remote Download completed at %f\n", CACurrentMediaTime()]];
+    NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *newFilePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@-remote-log-%f.txt", self.track.title, CACurrentMediaTime()]];
+    [self.remoteLog writeToFile:newFilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+
     [self moveDownloadedFileFromURL:location];
 
     if ([self.delegate respondsToSelector:@selector(didReceiveSource:downloadStatusUpdate:forTrack:)]) {
@@ -215,6 +241,8 @@
     if (!self.isCancelled) {
         double progress = (double)totalBytesWritten/(double)totalBytesExpectedToWrite;
         NSLog(@"Track REMOTE download progress %.2f", progress);
+
+        self.remoteLog = [self.remoteLog stringByAppendingString:[NSString stringWithFormat:@"%f – REMOTE – %.2f\n", CACurrentMediaTime(), progress]];
 
         if ([self.delegate respondsToSelector:@selector(didReceiveSource:progressUpdate:forTrack:)]) {
             [self.delegate didReceiveSource:RigelSourceRemote progressUpdate:progress forTrack:self.track];
