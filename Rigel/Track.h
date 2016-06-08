@@ -13,6 +13,7 @@
 @property (nonatomic, copy, readonly) NSString *title;
 @property (nonatomic, getter=isLocal, readonly) BOOL localAvailable;
 @property (nonatomic, getter=isRemoteAvailable) BOOL remoteAvailable;
+@property (nonatomic, getter=isPlaying) BOOL playing;
 
 @property (nonatomic, copy, readonly) NSString *filePath;
 

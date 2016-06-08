@@ -234,6 +234,18 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="device is Advertising" id="5gj-NO-qZ9">
+                        <barButtonItem key="leftBarButtonItem" style="done" id="Twq-es-FPL">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jfz-F3-xPa">
+                                <rect key="frame" x="20" y="7" width="47" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Clear">
+                                    <color key="titleColor" red="0.094117647060000004" green="0.094117647060000004" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="clear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TcZ-75-AmX"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="done" id="Y3e-eD-Okz">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="QGW-AG-MgE">
                                 <rect key="frame" x="533" y="7" width="47" height="30"/>

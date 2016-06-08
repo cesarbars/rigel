@@ -6,6 +6,8 @@
 //  Copyright © 2016 Cesar Barscevicius. All rights reserved.
 //
 
+@import AVFoundation;
+
 #import "ViewController.h"
 
 #import "AbstractMultipeerController.h"
@@ -35,6 +37,7 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 @property (nonatomic, strong) Track *activeTrack;
 @property (nonatomic, strong) NSOperationQueue *rigelUtilityOperationQueue;
 @property (nonatomic, strong) NSOperationQueue *rigelDownloadOperationQueue;
+@property (nonatomic, strong) AVAudioPlayer *player;
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UILabel *downloadTitleLabel;
@@ -154,6 +157,19 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     [self setup];
 }
 
+- (IBAction)clear:(id)sender {
+    NSString *documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *newFilePath = [documentsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"/downloads"]];
+    NSURL *indexURL = [NSURL fileURLWithPath:newFilePath];
+    // Removes file if already there
+    if ([fileManager fileExistsAtPath:newFilePath]) {
+        [fileManager removeItemAtURL:indexURL error:nil];
+    }
+
+    [self setup];
+}
+
 #pragma mark MultipeerBrowserDelegate
 
 - (void)lostConnectedPeer:(MCPeerID *)peerID {
@@ -244,7 +260,13 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:RigelReusableCellIdentifier forIndexPath:indexPath];
 
     Track *track = [self.library trackAtIndex:indexPath.row];
-    cell.textLabel.text = track.title;
+
+    NSString *title = track.title;
+    if (track.isPlaying) {
+        title = [title stringByAppendingString:@" 🔊"];
+    }
+
+    cell.textLabel.text = title;
 
     NSString *availabilityString = @"";
     if (track.isLocal) {
@@ -271,16 +293,34 @@ NSString * const RigelReusableCellIdentifier = @"rigel-cell";
 
     if (selectedTrack.isLocal) {
         // Local
-        NSLog(@"Start playing %@", selectedTrack);
-        return;
+        if (!selectedTrack.isPlaying) {
+            [self.library.allTracks enumerateObjectsUsingBlock:^(Track * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                obj.playing = NO;
+            }];
+            [self.player stop];
+
+            NSLog(@"Start playing %@", selectedTrack);
+            NSURL *soundFileURL = [NSURL fileURLWithPath:selectedTrack.filePath];
+            self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:soundFileURL error:nil];
+            self.player.numberOfLoops = -1; //Infinite
+
+            selectedTrack.playing = YES;
+            
+            [self.player play];
+        } else {
+            selectedTrack.playing = NO;
+            [self.player stop];
+        }
+
+        [self.tableView reloadData];
+    } else {
+        // Should start download operation
+        self.resourceDownloadOperation = [[ResourceDownloadOperation alloc] initWithSessionManager:self.multipeerController.sessionManager track:selectedTrack library:self.library];
+        self.resourceDownloadOperation.qualityOfService = NSQualityOfServiceUserInitiated;
+        self.resourceDownloadOperation.delegate = self;
+
+        [self.rigelDownloadOperationQueue addOperation:self.resourceDownloadOperation];
     }
-
-    // Should start download operation
-    self.resourceDownloadOperation = [[ResourceDownloadOperation alloc] initWithSessionManager:self.multipeerController.sessionManager track:selectedTrack library:self.library];
-    self.resourceDownloadOperation.qualityOfService = NSQualityOfServiceUserInitiated;
-    self.resourceDownloadOperation.delegate = self;
-
-    [self.rigelDownloadOperationQueue addOperation:self.resourceDownloadOperation];
 }
 
 #pragma mark LibraryDataDelegate
